@@ -1,0 +1,14 @@
+{
+    "name": "yousuf/bangubank-main-db",
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "yousuf"
+        }
+    ],
+    "require": {}
+}
