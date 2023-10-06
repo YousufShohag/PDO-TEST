@@ -1,3 +1,26 @@
+
+<?php
+
+session_start();
+
+if (!isset($_SESSION['email'])) {
+  header("location:../login.php");
+}
+require_once '../vendor/autoload.php';
+
+
+
+$db = new App\Classes\Deposit\CustomerWithdraw(new App\Storage\DB());
+
+
+
+if (isset($_POST['withdraw'])) {
+  $db->insertWithdraw($_POST);
+}
+?>
+
+
+
 <!DOCTYPE html>
 <html
   class="h-full bg-gray-100"
@@ -35,7 +58,7 @@
       }
     </style>
 
-    <title>Transfer Balance</title>
+    <title>Withdraw Balance</title>
   </head>
   <body class="h-full">
     <div class="min-h-full">
@@ -51,24 +74,24 @@
                   <div class="flex space-x-4">
                     <!-- Current: "bg-emerald-700 text-white", Default: "text-white hover:bg-emerald-500 hover:bg-opacity-75" -->
                     <a
-                      href="./dashboard.html"
+                      href="./dashboard.php"
                       class="text-white hover:bg-emerald-500 hover:bg-opacity-75 rounded-md py-2 px-3 text-sm font-medium"
                       aria-current="page"
                       >Dashboard</a
                     >
                     <a
-                      href="./deposit.html"
+                      href="./deposit.php"
                       class="text-white hover:bg-emerald-500 hover:bg-opacity-75 rounded-md py-2 px-3 text-sm font-medium"
                       >Deposit</a
                     >
                     <a
-                      href="./withdraw.html"
-                      class="text-white hover:bg-emerald-500 hover:bg-opacity-75 rounded-md py-2 px-3 text-sm font-medium"
+                      href="./withdraw.php"
+                      class="bg-emerald-700 text-white rounded-md py-2 px-3 text-sm font-medium"
                       >Withdraw</a
                     >
                     <a
-                      href="./transfer.html"
-                      class="bg-emerald-700 text-white rounded-md py-2 px-3 text-sm font-medium"
+                      href="./transfer.php"
+                      class="text-white hover:bg-emerald-500 hover:bg-opacity-75 rounded-md py-2 px-3 text-sm font-medium"
                       >Transfer</a
                     >
                   </div>
@@ -186,13 +209,13 @@
 
               <a
                 href="./withdraw.html"
-                class="text-white hover:bg-emerald-500 hover:bg-opacity-75 block rounded-md py-2 px-3 text-base font-medium"
+                class="bg-emerald-700 text-white block rounded-md py-2 px-3 text-base font-medium"
                 >Withdraw</a
               >
 
               <a
                 href="./transfer.html"
-                class="bg-emerald-700 text-white block rounded-md py-2 px-3 text-base font-medium"
+                class="text-white hover:bg-emerald-500 hover:bg-opacity-75 block rounded-md py-2 px-3 text-base font-medium"
                 >Transfer</a
               >
             </div>
@@ -249,7 +272,7 @@
         <header class="py-10">
           <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <h1 class="text-3xl font-bold tracking-tight text-white">
-              Transfer Balance
+              Withdaw Balance
             </h1>
           </div>
         </header>
@@ -274,33 +297,27 @@
             </dl>
 
             <hr />
-            <!-- Transfer Form -->
+            <!-- Withdaw Form -->
             <div class="sm:rounded-lg">
               <div class="px-4 py-5 sm:p-6">
+                <h3 class="text-lg font-semibold leading-6 text-gray-800">
+                  Withdaw Money From Your Account
+                </h3>
                 <div class="mt-4 text-sm text-gray-500">
                   <form
                     action="#"
                     method="POST">
-                    <!-- Recipient's Email Input -->
-                    <input
-                      type="email"
-                      name="email"
-                      id="email"
-                      class="block w-full ring-0 outline-none py-2 text-gray-800 border-b placeholder:text-gray-400 md:text-4xl"
-                      placeholder="Recipient's Email Address"
-                      required />
-
-                    <!-- Amount -->
-                    <div class="relative mt-4 md:mt-8">
+                    <!-- Input Field -->
+                    <div class="relative mt-2 rounded-md">
                       <div
                         class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-0">
-                        <span class="text-gray-400 md:text-4xl">$</span>
+                        <span class="text-gray-400 sm:text-4xl">$</span>
                       </div>
                       <input
                         type="number"
                         name="amount"
                         id="amount"
-                        class="block w-full ring-0 outline-none pl-4 py-2 md:pl-8 text-gray-800 border-b border-b-emerald-500 placeholder:text-gray-400 md:text-4xl"
+                        class="block w-full ring-0 outline-none text-xl pl-4 py-2 sm:pl-8 text-gray-800 border-b border-b-emerald-500 placeholder:text-gray-400 sm:text-4xl"
                         placeholder="0.00"
                         required />
                     </div>
@@ -308,8 +325,8 @@
                     <!-- Submit Button -->
                     <div class="mt-5">
                       <button
-                        type="submit"
-                        class="w-full px-6 py-3.5 text-base font-medium text-white bg-emerald-600 hover:bg-emerald-800 focus:ring-4 focus:outline-none focus:ring-emerald-300 rounded-lg md:text-xl text-center">
+                        type="submit" name="withdraw"
+                        class="w-full px-6 py-3.5 text-base font-medium text-white bg-emerald-600 hover:bg-emerald-800 focus:ring-4 focus:outline-none focus:ring-emerald-300 rounded-lg sm:text-xl text-center">
                         Proceed
                       </button>
                     </div>

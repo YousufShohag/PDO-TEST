@@ -46,28 +46,69 @@ class DB
     public function login_register($sql)
     {
         try {
-            $this->conn->prepare($sql);
-            $this->conn->execute();
-            $result = $this->conn->fetch(PDO::FETCH_ASSOC);
-            return result;
-           // header("location:customer/dashboard.html");
+            $stmt = $this->conn->prepare($sql);
+            
+            $stmt->execute();
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            
+            //$username = $result['name'];
+            
+            if ($result) {
+                session_start();
+                $_SESSION['email'] = $result['email'];
+                $_SESSION['name'] = $result['name'];
+                $_SESSION['id'] = $result['id'];
+                header("location:customer/dashboard.php");
+            }else{
+                echo "NOT";
+            }
+            
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
     }
-    // public function user_registration($formData)
-    // {
-    //     $name = $formData['name'];
-    //     $email = $formData['email'];
-    //     $password = md5($formData['password']);
-    //     $password = $password;
+    public function customerDeposit($sql)
+    {
+        try {
+            $this->conn->exec($sql);
+            echo "Succefully Deposit";
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
+    public function customerWithdraw($sql)
+    {
+        try {
+            $this->conn->exec($sql);
+            echo "Succefully Withdraw";
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
+    public function customerTransfer($sql)
+    {
+        try {
+            $this->conn->exec($sql);
+            echo "Succefully Transfer";
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
+    public function showTransfer($sql)
+    {
+        try {
 
-    //     $result = $this->conn->query("INSERT INTO users (name,email,password) VALUES('$name','$email','$password')");
-
-    //     if ($result) {
-    //         echo "Data Registerd";
-    //     } else {
-    //         echo "Not";
-    //     }
-    // }
+            $stmt = $this->conn->prepare($sql);
+            
+            $stmt->execute();
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $result;
+            // while($row = $result){
+            //         echo $row['email'];
+            // }
+        
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
 }

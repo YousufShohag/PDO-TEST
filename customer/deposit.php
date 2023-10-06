@@ -1,3 +1,26 @@
+
+
+<?php
+
+session_start();
+
+if (!isset($_SESSION['email'])) {
+  header("location:../login.php");
+}
+require_once '../vendor/autoload.php';
+
+
+
+$db = new App\Classes\Deposit\customerDeposit(new App\Storage\DB());
+
+
+
+if (isset($_POST['deposit'])) {
+  $db->insertDeposit($_POST);
+}
+?>
+
+
 <!DOCTYPE html>
 <html
   class="h-full bg-gray-100"
@@ -35,7 +58,7 @@
       }
     </style>
 
-    <title>Dashboard</title>
+    <title>Deposit Balance</title>
   </head>
   <body class="h-full">
     <div class="min-h-full">
@@ -51,23 +74,23 @@
                   <div class="flex space-x-4">
                     <!-- Current: "bg-emerald-700 text-white", Default: "text-white hover:bg-emerald-500 hover:bg-opacity-75" -->
                     <a
-                      href="./dashboard.html"
-                      class="bg-emerald-700 text-white rounded-md py-2 px-3 text-sm font-medium"
+                      href="./dashboard.php"
+                      class="text-white hover:bg-emerald-500 hover:bg-opacity-75 rounded-md py-2 px-3 text-sm font-medium"
                       aria-current="page"
                       >Dashboard</a
                     >
                     <a
-                      href="./deposit.html"
-                      class="text-white hover:bg-emerald-500 hover:bg-opacity-75 rounded-md py-2 px-3 text-sm font-medium"
+                      href="./deposit.php"
+                      class="bg-emerald-700 text-white rounded-md py-2 px-3 text-sm font-medium"
                       >Deposit</a
                     >
                     <a
-                      href="./withdraw.html"
+                      href="./withdraw.php"
                       class="text-white hover:bg-emerald-500 hover:bg-opacity-75 rounded-md py-2 px-3 text-sm font-medium"
                       >Withdraw</a
                     >
                     <a
-                      href="./transfer.html"
+                      href="./transfer.php"
                       class="text-white hover:bg-emerald-500 hover:bg-opacity-75 rounded-md py-2 px-3 text-sm font-medium"
                       >Transfer</a
                     >
@@ -111,7 +134,7 @@
                     aria-labelledby="user-menu-button"
                     tabindex="-1">
                     <a
-                      href="#"
+                      href="../logout.php"
                       class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                       role="menuitem"
                       tabindex="-1"
@@ -173,14 +196,14 @@
             <div class="space-y-1 pt-2 pb-3">
               <a
                 href="./dashboard.html"
-                class="bg-emerald-700 text-white block rounded-md py-2 px-3 text-base font-medium"
+                class="text-white hover:bg-emerald-500 hover:bg-opacity-75 block rounded-md py-2 px-3 text-base font-medium"
                 aria-current="page"
                 >Dashboard</a
               >
 
               <a
                 href="./deposit.html"
-                class="text-white hover:bg-emerald-500 hover:bg-opacity-75 block rounded-md py-2 px-3 text-base font-medium"
+                class="bg-emerald-700 text-white block rounded-md py-2 px-3 text-base font-medium"
                 >Deposit</a
               >
 
@@ -249,7 +272,7 @@
         <header class="py-10">
           <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <h1 class="text-3xl font-bold tracking-tight text-white">
-              Howdy, Ahmed Shamim 👋
+              Deposit Balance
             </h1>
           </div>
         </header>
@@ -273,141 +296,41 @@
               </div>
             </dl>
 
-            <!-- List of All The Transactions -->
-            <div class="px-4 sm:px-6 lg:px-8">
-              <div class="sm:flex sm:items-center">
-                <div class="sm:flex-auto">
-                  <p class="mt-2 text-sm text-gray-700">
-                    Here's a list of all your transactions which inlcuded
-                    receiver's name, email, amount and date.
-                  </p>
-                </div>
-              </div>
-              <div class="mt-8 flow-root">
-                <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-                  <div
-                    class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-                    <table class="min-w-full divide-y divide-gray-300">
-                      <thead>
-                        <tr>
-                          <th
-                            scope="col"
-                            class="whitespace-nowrap py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">
-                            Receiver Name
-                          </th>
-                          <th
-                            scope="col"
-                            class="whitespace-nowrap py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">
-                            Email
-                          </th>
-                          <th
-                            scope="col"
-                            class="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900">
-                            Amount
-                          </th>
-                          <th
-                            scope="col"
-                            class="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900">
-                            Date
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody class="divide-y divide-gray-200 bg-white">
-                        <tr>
-                          <td
-                            class="whitespace-nowrap py-4 pl-4 pr-3 text-sm text-gray-800 sm:pl-0">
-                            Bruce Wayne
-                          </td>
-                          <td
-                            class="whitespace-nowrap py-4 pl-4 pr-3 text-sm text-gray-500 sm:pl-0">
-                            bruce@wayne.com
-                          </td>
-                          <td
-                            class="whitespace-nowrap px-2 py-4 text-sm font-medium text-emerald-600">
-                            +$10,240
-                          </td>
-                          <td
-                            class="whitespace-nowrap px-2 py-4 text-sm text-gray-500">
-                            29 Sep 2023, 09:25 AM
-                          </td>
-                        </tr>
-                        <tr>
-                          <td
-                            class="whitespace-nowrap py-4 pl-4 pr-3 text-sm text-gray-800 sm:pl-0">
-                            Al Nahian
-                          </td>
-                          <td
-                            class="whitespace-nowrap py-4 pl-4 pr-3 text-sm text-gray-500 sm:pl-0">
-                            alnahian@2003.com
-                          </td>
-                          <td
-                            class="whitespace-nowrap px-2 py-4 text-sm font-medium text-red-600">
-                            -$2,500
-                          </td>
-                          <td
-                            class="whitespace-nowrap px-2 py-4 text-sm text-gray-500">
-                            15 Sep 2023, 06:14 PM
-                          </td>
-                        </tr>
-                        <tr>
-                          <td
-                            class="whitespace-nowrap py-4 pl-4 pr-3 text-sm text-gray-800 sm:pl-0">
-                            Muhammad Alp Arslan
-                          </td>
-                          <td
-                            class="whitespace-nowrap py-4 pl-4 pr-3 text-sm text-gray-500 sm:pl-0">
-                            alp@arslan.com
-                          </td>
-                          <td
-                            class="whitespace-nowrap px-2 py-4 text-sm font-medium text-emerald-600">
-                            +$49,556
-                          </td>
-                          <td
-                            class="whitespace-nowrap px-2 py-4 text-sm text-gray-500">
-                            03 Jul 2023, 12:55 AM
-                          </td>
-                        </tr>
+            <hr />
+            <!-- Deposit Form -->
+            <div class="sm:rounded-lg">
+              <div class="px-4 py-5 sm:p-6">
+                <h3 class="text-lg font-semibold leading-6 text-gray-800">
+                  Deposit Money To Your Account
+                </h3>
+                <div class="mt-4 text-sm text-gray-500">
+                  <form
+                    action=""
+                    method="POST">
+                    <!-- Input Field -->
+                    <div class="relative mt-2 rounded-md">
+                      <div
+                        class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-0">
+                        <span class="text-gray-400 sm:text-4xl">$</span>
+                      </div>
+                      <input
+                        type="number"
+                        name="amount"
+                        id="amount"
+                        class="block w-full ring-0 outline-none text-xl pl-4 py-2 sm:pl-8 text-gray-800 border-b border-b-emerald-500 placeholder:text-gray-400 sm:text-4xl"
+                        placeholder="0.00"
+                        required />
+                    </div>
 
-                        <tr>
-                          <td
-                            class="whitespace-nowrap py-4 pl-4 pr-3 text-sm text-gray-800 sm:pl-0">
-                            Povilas Korop
-                          </td>
-                          <td
-                            class="whitespace-nowrap py-4 pl-4 pr-3 text-sm text-gray-500 sm:pl-0">
-                            povilas@korop.com
-                          </td>
-                          <td
-                            class="whitespace-nowrap px-2 py-4 text-sm font-medium text-emerald-600">
-                            +$6,125
-                          </td>
-                          <td
-                            class="whitespace-nowrap px-2 py-4 text-sm text-gray-500">
-                            07 Jun 2023, 10:00 PM
-                          </td>
-                        </tr>
-
-                        <tr>
-                          <td
-                            class="whitespace-nowrap py-4 pl-4 pr-3 text-sm text-gray-800 sm:pl-0">
-                            Martin Joo
-                          </td>
-                          <td
-                            class="whitespace-nowrap py-4 pl-4 pr-3 text-sm text-gray-500 sm:pl-0">
-                            martin@joo.com
-                          </td>
-                          <td
-                            class="whitespace-nowrap px-2 py-4 text-sm font-medium text-red-600">
-                            -$125
-                          </td>
-                          <td
-                            class="whitespace-nowrap px-2 py-4 text-sm text-gray-500">
-                            02 Feb 2023, 8:30 PM
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
+                    <!-- Submit Button -->
+                    <div class="mt-5">
+                      <button
+                        type="submit" name="deposit"
+                        class="w-full px-6 py-3.5 text-base font-medium text-white bg-emerald-600 hover:bg-emerald-800 focus:ring-4 focus:outline-none focus:ring-emerald-300 rounded-lg sm:text-xl text-center">
+                        Proceed
+                      </button>
+                    </div>
+                  </form>
                 </div>
               </div>
             </div>

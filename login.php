@@ -70,7 +70,7 @@ if (isset($_POST['login'])) {
 
       <p class="mt-10 text-sm text-center text-gray-500">
         Don't have an account?
-        <a href="./register.html" class="font-semibold leading-6 text-emerald-600 hover:text-emerald-500">Register</a>
+        <a href="./index.php" class="font-semibold leading-6 text-emerald-600 hover:text-emerald-500">Register</a>
       </p>
     </div>
   </div>

@@ -19,7 +19,7 @@ class Migration
             if (is_file($file)) {
                 $sql = file_get_contents($file);
                 $this->db->createTable($sql);
-                // echo basename($file) . "<br>";
+                echo basename($file) . "<br>";
             }
         }
     }
